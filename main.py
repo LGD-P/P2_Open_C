@@ -1,3 +1,5 @@
+import csv
+
 import requests
 from bs4 import BeautifulSoup
 from rich.console import Console
@@ -9,6 +11,7 @@ from rich import print
 c = Console()
 
 # Creat a list of every data we need to scrap
+# We use this list to get headers of csv file
 
 data_to_scrap = ["PRODUCT_PAGE_URL", 
                  "UNIVERSAL_PRODUCT_CODE",
@@ -23,9 +26,22 @@ data_to_scrap = ["PRODUCT_PAGE_URL",
                  ]
 
 
+# with csv library we creat a books_listing file 
+# we will fill the first row as header with data_to_scrap list
+
+with open("books-listing.csv", "w" , newline ="" , encoding="utf-8") as books_listing:
+    writer = csv.writer(books_listing)
+    writer = writer.writerow(data_to_scrap)
+
 # This list will contain every category of books
 
 category_list = []
+
+
+# This list will contain every urls books 
+
+url_books_page = []
+
 
 
 # We requests main page with categorys to scrape
@@ -100,6 +116,8 @@ for books in book_try_url:
     print(get_price_including_tax)
     c.print("-------" * 10, style= "bold red")
 
+    # Here we start data from second character [1:] because first one 
+    # is special 
     get_price_excluding_tax  = soup_book_try.select("td")[3].text[1:]
 
     print(get_price_excluding_tax)
