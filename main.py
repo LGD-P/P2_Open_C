@@ -1,19 +1,20 @@
-import csv
-
 import requests
 from bs4 import BeautifulSoup
 from rich.console import Console
 from rich import print
+
+from write_data import write_csv_headers, write_data_in_csv
 
 # with rich library, we creat Console() object as c,  
 # to color some output for users
 
 c = Console()
 
+
 # Creat a list of every data we need to scrap
 # We use this list to get headers of csv file
 
-data_to_scrap = ["PRODUCT_PAGE_URL", 
+DATA_TO_SCRAPT = ["PRODUCT_PAGE_URL", 
                  "UNIVERSAL_PRODUCT_CODE",
                  "TITLE",
                  "PRICE_INCLUDING_TAXE",
@@ -29,9 +30,7 @@ data_to_scrap = ["PRODUCT_PAGE_URL",
 # with csv library we creat a books_listing file 
 # we will fill the first row as header with data_to_scrap list
 
-with open("books-listing.csv", "w" , newline ="" , encoding="utf-8") as books_listing:
-    writer = csv.writer(books_listing)
-    writer = writer.writerow(data_to_scrap)
+write_csv_headers(DATA_TO_SCRAPT)
 
 # This list will contain every category of books
 
@@ -166,6 +165,15 @@ for books in book_try_url:
     print(get_image_url)
     print("")
     print("")
+    
+    # We create a list with all data for each books
+    data_list_scrapped = [get_product_page_url,get_book_name,get_upc,
+                            get_price_including_tax,get_price_excluding_tax,
+                            get_number_available,get_product_description,
+                            get_category,get_image_url]
+    
+    # We use a function to write in csv file each elements of our list
+    write_data_in_csv(data_list_scrapped)
     
     
 
