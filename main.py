@@ -27,7 +27,12 @@ data_to_scrap = ["PRODUCT_PAGE_URL",
 
 category_list = []
 
+
+# We requests main page with categorys to scrape
+
 URL = requests.get("https://books.toscrape.com/catalogue/page-1.html")
+
+# We creat a Bs4 object to parse data 
 
 soup = BeautifulSoup(URL.text, 'html.parser')
 
@@ -54,6 +59,8 @@ category_list.pop(0)
 #### TRY ON ONE BOOK
 
 ############################################
+
+# Same process as the main page we request url and creat a Bs4 object to scrape data
 
 
 book_try_url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
@@ -92,6 +99,10 @@ c.print("-------" * 10, style= "bold red")
 
 get_number_available_full_str =  soup_book_try.select("td")[5].text
 
+# here data is a string, with number available inside.
+# We create a comprehension list, avoiding a for loop, to get a list with only the
+# digits . Then we join those elements, to get back in a string, numbers available 
+
 get_number_available_in_list = [element 
                                 for element in get_number_available_full_str 
                                 if int(element.isdigit())
@@ -117,6 +128,9 @@ get_view_rating = soup_book_try.select("td")[6].text
 print(get_view_rating)
 c.print("-------" * 10, style= "bold red")
 
+# Here data is only the end of img url, 
+# once the data is geted we replace ../../ whit the begining url
+# to get full img url
 
 get_image_url_first_step = soup_book_try.find("img").get("src")
 
