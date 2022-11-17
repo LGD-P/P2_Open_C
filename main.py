@@ -129,7 +129,7 @@ print(get_view_rating)
 c.print("-------" * 10, style= "bold red")
 
 # Here data is only the end of img url, 
-# once the data is geted we replace ../../ whit the begining url
+# once the data scraped we replace ../../ whit the begining url
 # to get full img url
 
 get_image_url_first_step = soup_book_try.find("img").get("src")
