@@ -63,82 +63,93 @@ category_list.pop(0)
 # Same process as the main page we request url and creat a Bs4 object to scrape data
 
 
-book_try_url = "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html"
+book_try_url = ["https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html", 
+                "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html",
+                "https://books.toscrape.com/catalogue/soumission_998/index.html"
+                ]
+
+for books in book_try_url:
+    book_try_request = requests.get(books)
+
+    soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
 
 
-book_try_request = requests.get(book_try_url)
+    get_product_page_url = books
 
-soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
+    c.print("-------" * 10, style= "bold blue",justify= 'center')
+    c.print("-------" * 10, style= "bold blue",justify= 'center')
+    c.print("NEW BOOK", style= "bold green", justify= 'center')
+    c.print("-------" * 10, style= "bold blue",justify= 'center')
+    c.print("-------" * 10, style= "bold blue",justify= 'center')
+    
+    print(get_product_page_url)
+    c.print("-------" * 10, style= "bold red")
 
+    get_book_name = soup_book_try.find("div", class_="col-sm-6 product_main").find("h1").text
 
-get_product_page_url = book_try_url
+    print(get_book_name)
+    c.print("-------" * 10, style= "bold red")
 
-c.print("-------" * 10, style= "bold red")
-print(get_product_page_url)
-c.print("-------" * 10, style= "bold red")
+    get_upc = soup_book_try.find("td").text
 
-get_book_name = soup_book_try.find("div", class_="col-sm-6 product_main").find("h1").text
+    print(get_upc)
+    c.print("-------" * 10, style= "bold red")
 
-print(get_book_name)
-c.print("-------" * 10, style= "bold red")
+    get_price_including_tax = soup_book_try.select("td")[2].text[1:]
 
-get_upc = soup_book_try.find("td").text
+    print(get_price_including_tax)
+    c.print("-------" * 10, style= "bold red")
 
-print(get_upc)
-c.print("-------" * 10, style= "bold red")
+    get_price_excluding_tax  = soup_book_try.select("td")[3].text[1:]
 
-get_price_including_tax = soup_book_try.select("td")[2].text[1:]
+    print(get_price_excluding_tax)
+    c.print("-------" * 10, style= "bold red")
 
-print(get_price_including_tax)
-c.print("-------" * 10, style= "bold red")
+    get_number_available_full_str =  soup_book_try.select("td")[5].text
 
-get_price_excluding_tax  = soup_book_try.select("td")[3].text[1:]
+    # here data is a string, with number available inside.
+    # We create a comprehension list, avoiding a for loop, to get a list with only the
+    # digits . Then we join those elements, to get back in a string, numbers available 
 
-print(get_price_excluding_tax)
-c.print("-------" * 10, style= "bold red")
-
-get_number_available_full_str =  soup_book_try.select("td")[5].text
-
-# here data is a string, with number available inside.
-# We create a comprehension list, avoiding a for loop, to get a list with only the
-# digits . Then we join those elements, to get back in a string, numbers available 
-
-get_number_available_in_list = [element 
+    get_number_available_in_list = [element 
                                 for element in get_number_available_full_str 
                                 if int(element.isdigit())
                                 ]
 
-get_number_available = "".join(get_number_available_in_list)
+    get_number_available = "".join(get_number_available_in_list)
 
-print(get_number_available)
-c.print("-------" * 10, style= "bold red")
+    print(get_number_available)
+    c.print("-------" * 10, style= "bold red")
 
-get_product_description = soup_book_try.select("p")[3].text
+    get_product_description = soup_book_try.select("p")[3].text
 
-print(get_product_description)
-c.print("-------" * 10, style= "bold red")
+    print(get_product_description)
+    c.print("-------" * 10, style= "bold red")
 
-get_category = soup_book_try.find("ul", class_="breadcrumb").select('a')[2].text
+    get_category = soup_book_try.find("ul", class_="breadcrumb").select('a')[2].text
 
-print(get_category)
-c.print("-------" * 10, style= "bold red")
+    print(get_category)
+    c.print("-------" * 10, style= "bold red")
 
-get_view_rating = soup_book_try.select("td")[6].text
+    get_view_rating = soup_book_try.select("td")[6].text
 
-print(get_view_rating)
-c.print("-------" * 10, style= "bold red")
+    print(get_view_rating)
+    c.print("-------" * 10, style= "bold red")
 
-# Here data is only the end of img url, 
-# once the data scraped we replace ../../ whit the begining url
-# to get full img url
+    # Here data is only the end of img url, 
+    # once the data scraped we replace ../../ whit the begining url
+    # to get full img url
 
-get_image_url_first_step = soup_book_try.find("img").get("src")
+    get_image_url_first_step = soup_book_try.find("img").get("src")
 
-get_image_url = get_image_url_first_step.replace("../../","https://books.toscrape.com/")
+    get_image_url = get_image_url_first_step.replace("../../","https://books.toscrape.com/")
 
 
-print(get_image_url)
-c.print("-------" * 10, style= "bold red")
+    print(get_image_url)
+    print("")
+    print("")
+    
+    
 
 
 
