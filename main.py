@@ -44,8 +44,7 @@ category_list_next_pages = []
 
 url_books_page = []
 
-
-
+"""
 # We requests main page with categorys to scrape
 
 URL = requests.get("https://books.toscrape.com/catalogue/page-1.html")
@@ -69,8 +68,6 @@ for element in main_page.find_all("a"):
 # First element of category list is an index and not a category
 # so we remove it.
 category_list.pop(0)
-
-
 
 
 ######################################
@@ -100,21 +97,43 @@ for each_category in track(category_list, description="Scrapping all URL CATEGOR
 
 final_category_list = category_list + category_list_next_pages
 
-print(len(category_list))
+"""
 
-print(len(category_list_next_pages))
+######################################
+######################################
 
-print(len(final_category_list))
 
-
+#TRY TO GET BOOKS URL FROM 
+# CATEGORY PAGES
 
 
 ######################################
 ######################################
+
+
+url_test = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
+
+request_url_for_books = requests.get(url_test)
+
+soup_books_url = BeautifulSoup(request_url_for_books.text, "html.parser")
+
+
+for each_url in soup_books_url.find_all("h3"):
+    end_of_url = each_url.find("a").get("href")
+    url_books_page.append(end_of_url.replace("../../../","https://books.toscrape.com/catalogue/" ))
+
+print(url_books_page)
+print(len(url_books_page))
+
+
+
+
+
 
 
 
 """
+
 ############################################
 ############################################
 
@@ -221,8 +240,8 @@ for books in book_try_url:
     
     # We use a function to write in csv file each elements of our list
     write_data_in_csv(data_list_scrapped)
+
 """ 
-    
 
 
 
