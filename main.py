@@ -111,16 +111,20 @@ final_category_list = category_list + category_list_next_pages
 ######################################
 
 
-url_test = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
-
-request_url_for_books = requests.get(url_test)
-
-soup_books_url = BeautifulSoup(request_url_for_books.text, "html.parser")
+url_test = ["https://books.toscrape.com/catalogue/category/books/travel_2/index.html", 
+            "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html"
+            ]
 
 
-for each_url in soup_books_url.find_all("h3"):
-    end_of_url = each_url.find("a").get("href")
-    url_books_page.append(end_of_url.replace("../../../","https://books.toscrape.com/catalogue/" ))
+for each_url in url_test:
+    request_url_for_books = requests.get(each_url)
+
+    soup_books_url = BeautifulSoup(request_url_for_books.text, "html.parser")
+
+
+    for each_url in soup_books_url.find_all("h3"):
+        end_of_url = each_url.find("a").get("href")
+        url_books_page.append(end_of_url.replace("../../../","https://books.toscrape.com/catalogue/" ))
 
 print(url_books_page)
 print(len(url_books_page))
