@@ -44,7 +44,7 @@ category_list_next_pages = []
 
 url_books_page = []
 
-"""
+
 # We requests main page with categorys to scrape
 
 URL = requests.get("https://books.toscrape.com/catalogue/page-1.html")
@@ -81,7 +81,7 @@ category_list.pop(0)
 # we creat an infinit loop
 
 
-for each_category in track(category_list, description="Scrapping all URL CATEGORY PAGES") :
+for each_category in track(category_list, description="Scrapping all URL by CATEGORY") :
     
     try:      
         requests_all_pages = requests.get(each_category)
@@ -89,7 +89,7 @@ for each_category in track(category_list, description="Scrapping all URL CATEGOR
         find_number_of_pages = soup_all_pages.find("li", class_="current").text.strip()
         
         for number_of_pages in range(int(find_number_of_pages[-1])):
-            number_of_pages +=1
+            number_of_pages +=2
             category_list_next_pages.append(each_category.replace("index.html","page-"+str(number_of_pages)+".html"))          
     except:
         pass
@@ -97,7 +97,6 @@ for each_category in track(category_list, description="Scrapping all URL CATEGOR
 
 final_category_list = category_list + category_list_next_pages
 
-"""
 
 ######################################
 ######################################
@@ -111,12 +110,7 @@ final_category_list = category_list + category_list_next_pages
 ######################################
 
 
-url_test = ["https://books.toscrape.com/catalogue/category/books/travel_2/index.html", 
-            "https://books.toscrape.com/catalogue/category/books/historical-fiction_4/index.html"
-            ]
-
-
-for each_url in url_test:
+for each_url in track(final_category_list, description= "Scrapping all URL by BOOKS"):
     request_url_for_books = requests.get(each_url)
 
     soup_books_url = BeautifulSoup(request_url_for_books.text, "html.parser")
@@ -126,8 +120,9 @@ for each_url in url_test:
         end_of_url = each_url.find("a").get("href")
         url_books_page.append(end_of_url.replace("../../../","https://books.toscrape.com/catalogue/" ))
 
-print(url_books_page)
-print(len(url_books_page))
+
+print(len(set(url_books_page)))
+
 
 
 
