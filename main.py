@@ -68,6 +68,32 @@ for element in main_page.find_all("a"):
 category_list.pop(0)
 
 
+######################################
+######################################
+
+# TRY to get all pages of one category
+
+
+try_all_pages_url = "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
+
+
+requests_all_pages = requests.get(try_all_pages_url)
+
+soup_all_pages = BeautifulSoup(requests_all_pages.text, 'html.parser')
+
+
+find_number_of_pages = soup_all_pages.find("li", class_="current").text.strip()
+
+
+print(find_number_of_pages[-1])
+
+
+######################################
+######################################
+
+
+
+"""
 ############################################
 ############################################
 
@@ -174,7 +200,7 @@ for books in book_try_url:
     
     # We use a function to write in csv file each elements of our list
     write_data_in_csv(data_list_scrapped)
-    
+""" 
     
 
 
