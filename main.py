@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from rich.console import Console
 from rich import print
+from rich.progress import track
 
 from write_data import write_csv_headers, write_data_in_csv
 
@@ -36,6 +37,8 @@ write_csv_headers(DATA_TO_SCRAPT)
 
 category_list = []
 
+category_list_next_pages = []
+
 
 # This list will contain every urls books 
 
@@ -68,33 +71,40 @@ for element in main_page.find_all("a"):
 category_list.pop(0)
 
 
+
+
 ######################################
 ######################################
 
-# TRY to get all pages of one category
+# Here we check every category pages 
+# and we try to find if there  next-pages
+# We get the number of pages and 
+# we concatenate url. 
+# We need to creat a new list otherwise 
+# we creat an infinit loop
 
 
-category_all_pages_list = []
+for each_category in track(category_list, description="Scrapping all URL CATEGORY PAGES") :
+    
+    try:      
+        requests_all_pages = requests.get(each_category)
+        soup_all_pages = BeautifulSoup(requests_all_pages.text, 'html.parser')
+        find_number_of_pages = soup_all_pages.find("li", class_="current").text.strip()
+        
+        for number_of_pages in range(int(find_number_of_pages[-1])):
+            number_of_pages +=1
+            category_list_next_pages.append(each_category.replace("index.html","page-"+str(number_of_pages)+".html"))          
+    except:
+        pass
+      
 
+final_category_list = category_list + category_list_next_pages
 
-try_all_pages_url = "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
+print(len(category_list))
 
+print(len(category_list_next_pages))
 
-requests_all_pages = requests.get(try_all_pages_url)
-
-soup_all_pages = BeautifulSoup(requests_all_pages.text, 'html.parser')
-
-
-find_number_of_pages = soup_all_pages.find("li", class_="current").text.strip()
-
-
-
-for number_of_pages in range(int(find_number_of_pages[-1])):
-    number_of_pages +=1
-    category_all_pages_list.append(try_all_pages_url.replace("index.html","page-"+str(number_of_pages)+".html"))
-   
-
-print(category_all_pages_list)
+print(len(final_category_list))
 
 
 
