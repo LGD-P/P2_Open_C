@@ -74,6 +74,9 @@ category_list.pop(0)
 # TRY to get all pages of one category
 
 
+category_all_pages_list = []
+
+
 try_all_pages_url = "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
 
 
@@ -85,7 +88,15 @@ soup_all_pages = BeautifulSoup(requests_all_pages.text, 'html.parser')
 find_number_of_pages = soup_all_pages.find("li", class_="current").text.strip()
 
 
-print(find_number_of_pages[-1])
+
+for number_of_pages in range(int(find_number_of_pages[-1])):
+    number_of_pages +=1
+    category_all_pages_list.append(try_all_pages_url.replace("index.html","page-"+str(number_of_pages)+".html"))
+   
+
+print(category_all_pages_list)
+
+
 
 
 ######################################
