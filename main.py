@@ -4,6 +4,8 @@ from rich.console import Console
 from rich import print
 from rich.progress import track
 
+
+
 from write_data import write_csv_headers, write_data_in_csv
 
 # with rich library, we creat Console() object as c,  
@@ -12,7 +14,7 @@ from write_data import write_csv_headers, write_data_in_csv
 c = Console()
 
 
-# Creat a list of every data we need to scrap
+# Creat a constant list of every data we need to scrap
 # We use this list to get headers of csv file
 
 DATA_TO_SCRAPT = ["PRODUCT_PAGE_URL", 
@@ -102,8 +104,7 @@ final_category_list = category_list + category_list_next_pages
 ######################################
 
 
-#TRY TO GET BOOKS URL FROM 
-# CATEGORY PAGES
+# GET BOOKS URL FROM  CATEGORY PAGES #
 
 
 ######################################
@@ -121,34 +122,9 @@ for each_url in track(final_category_list, description= "Scrapping all URL by BO
         url_books_page.append(end_of_url.replace("../../../","https://books.toscrape.com/catalogue/" ))
 
 
-print(len(set(url_books_page)))
 
 
-
-
-
-
-
-
-
-"""
-
-############################################
-############################################
-
-#### TRY ON ONE BOOK
-
-############################################
-
-# Same process as the main page we request url and creat a Bs4 object to scrape data
-
-
-book_try_url = ["https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html", 
-                "https://books.toscrape.com/catalogue/tipping-the-velvet_999/index.html",
-                "https://books.toscrape.com/catalogue/soumission_998/index.html"
-                ]
-
-for books in book_try_url:
+for books in track(url_books_page, description="Scrapping all books in csv..."):
     book_try_request = requests.get(books)
 
     soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
@@ -156,37 +132,16 @@ for books in book_try_url:
 
     get_product_page_url = books
 
-    c.print("-------" * 10, style= "bold blue",justify= 'center')
-    c.print("-------" * 10, style= "bold blue",justify= 'center')
-    c.print("NEW BOOK", style= "bold green", justify= 'center')
-    c.print("-------" * 10, style= "bold blue",justify= 'center')
-    c.print("-------" * 10, style= "bold blue",justify= 'center')
-    
-    print(get_product_page_url)
-    c.print("-------" * 10, style= "bold red")
-
     get_book_name = soup_book_try.find("div", class_="col-sm-6 product_main").find("h1").text
-
-    print(get_book_name)
-    c.print("-------" * 10, style= "bold red")
 
     get_upc = soup_book_try.find("td").text
 
-    print(get_upc)
-    c.print("-------" * 10, style= "bold red")
-
     get_price_including_tax = soup_book_try.select("td")[2].text[1:]
 
-    print(get_price_including_tax)
-    c.print("-------" * 10, style= "bold red")
-
-    # Here we start data from second character [1:] because first one 
-    # is special 
+   
     get_price_excluding_tax  = soup_book_try.select("td")[3].text[1:]
 
-    print(get_price_excluding_tax)
-    c.print("-------" * 10, style= "bold red")
-
+  
     get_number_available_full_str =  soup_book_try.select("td")[5].text
 
     # here data is a string, with number available inside.
@@ -200,23 +155,13 @@ for books in book_try_url:
 
     get_number_available = "".join(get_number_available_in_list)
 
-    print(get_number_available)
-    c.print("-------" * 10, style= "bold red")
 
     get_product_description = soup_book_try.select("p")[3].text
 
-    print(get_product_description)
-    c.print("-------" * 10, style= "bold red")
-
     get_category = soup_book_try.find("ul", class_="breadcrumb").select('a')[2].text
-
-    print(get_category)
-    c.print("-------" * 10, style= "bold red")
 
     get_view_rating = soup_book_try.select("td")[6].text
 
-    print(get_view_rating)
-    c.print("-------" * 10, style= "bold red")
 
     # Here data is only the end of img url, 
     # once the data scraped we replace ../../ whit the begining url
@@ -226,11 +171,6 @@ for books in book_try_url:
 
     get_image_url = get_image_url_first_step.replace("../../","https://books.toscrape.com/")
 
-
-    print(get_image_url)
-    print("")
-    print("")
-    
     # We create a list with all data for each books
     data_list_scrapped = [get_product_page_url,get_book_name,get_upc,
                             get_price_including_tax,get_price_excluding_tax,
@@ -239,10 +179,6 @@ for books in book_try_url:
     
     # We use a function to write in csv file each elements of our list
     write_data_in_csv(data_list_scrapped)
-
-""" 
-
-
 
 
 
