@@ -18,8 +18,7 @@ first_list_of_category = ["Travel","Mystery","Historical-Fiction","Sequential-Ar
 """second_list_of_category = ["History","Self-Help"]"""
 
 
-   
-    # Historial Fiction et Self Health
+    # Historial Fiction et Self Health ? 
     # retélécharger avec le bon nom de fichier. -"-"
 
 def creat_dir_from_img_category(list_of_catagery):
@@ -47,7 +46,7 @@ for path_name in second_list_of_category :
         if path_name in img.name:
             shutil.move(img, path_name)
 
-
-# supprimer le dossier de la boucle pour qu'il ne soit pas redéplacé
-
 """
+
+## Dossier ART et Dossier FICTION posent problème car il s'agit de nom de dossier composé.
+## Sequential-Art se retrouve dans ART etc... 
