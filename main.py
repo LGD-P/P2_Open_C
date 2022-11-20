@@ -1,13 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 from rich.console import Console
-from rich import print
 from rich.progress import track
 
 import urllib.request
 
 from write_data import write_csv_headers, write_data_in_csv
 from clean_directory import creat_dir_from_img_category, move_img_into_dir,CATEGORY_LIST_FOR_DIR
+from answer_set import table
 
 # with rich library, we creat Console() object as c,  
 # to color some output for users
@@ -125,7 +125,7 @@ for each_url in track(final_category_list, description= "Scrapping all URL by BO
 
 
 
-for books in track(url_books_page, description="Scrapingof  1000 books in csv in progress"):
+for books in track(url_books_page, description="Scraping 1000 books in .csv"):
     book_try_request = requests.get(books)
 
     soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
@@ -228,9 +228,4 @@ creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR )
 # We move each books image in directorys
 move_img_into_dir(CATEGORY_LIST_FOR_DIR ) 
 
-c.print("Félicitations tous les livres ont été récupérés\n"
-        "Dans le repertoire courant, un fichier books-listing.csv a été crée\n"
-        "Il contient l'intégralité des données.\n\n"
-        "Les images des livres ont été téléchargées et placées dans un répertoire\n"
-        "correspondant à leur catégorie, les fichiers sont identifiable par comparaison\n"
-        "de la catégorie et du numéro de produit dans le fichier csv.", style='bold red', justify="center")
+c.print(table)
