@@ -4,9 +4,10 @@ from rich.console import Console
 from rich import print
 from rich.progress import track
 
-
+import urllib.request
 
 from write_data import write_csv_headers, write_data_in_csv
+from clean_directory import creat_dir_from_img_category, move_img_into_dir,CATEGORY_LIST_FOR_DIR
 
 # with rich library, we creat Console() object as c,  
 # to color some output for users
@@ -124,7 +125,7 @@ for each_url in track(final_category_list, description= "Scrapping all URL by BO
 
 
 
-for books in track(url_books_page, description="Scrapping all books in csv..."):
+for books in track(url_books_page, description="Scrapingof  1000 books in csv in progress"):
     book_try_request = requests.get(books)
 
     soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
@@ -159,7 +160,46 @@ for books in track(url_books_page, description="Scrapping all books in csv..."):
     get_product_description = soup_book_try.select("p")[3].text
 
     get_category = soup_book_try.find("ul", class_="breadcrumb").select('a')[2].text
+    
+# In thhis part we remane some category to be able to clean easaly our directory later.
+    
+    if " " in get_category:
+        get_category = get_category.replace(" ", "-")
+    else:
+        pass
+    
+    if "Sequential-Art" in get_category:
+        get_category = get_category.replace("Sequential-Art","Sequential-A")
+    else:
+        pass
+    
+    if "Womens-Fiction" in get_category:
+        get_category = get_category.replace("Womens-Fiction","W-F")
+    else:
+        pass
+    
+    if "Historical-Fiction" in get_category:
+        get_category = get_category.replace("Historical-Fiction","Hist-F")
 
+    else:
+        pass
+    
+    if "Science-Fiction" in get_category:
+        get_category = get_category.replace("Science-Fiction","S-F")
+    
+    else:
+        pass
+    
+    if "Adult-Fiction" in get_category:
+        get_category = get_category.replace("Adult-Fiction","Adult-F")
+    else:
+        pass
+    
+    if "Christian-Fiction" in get_category:
+        get_category = get_category.replace("Christian-Fiction","Ch-F")
+    else:
+        pass
+    
     get_view_rating = soup_book_try.select("td")[6].text
 
 
@@ -177,8 +217,20 @@ for books in track(url_books_page, description="Scrapping all books in csv..."):
                             get_number_available,get_product_description,
                             get_category,get_image_url]
     
+    urllib.request.urlretrieve(get_image_url, get_category + "-" + get_upc + "-" +".jpg")
     # We use a function to write in csv file each elements of our list
     write_data_in_csv(data_list_scrapped)
 
 
+# We creat each directory for each category to clean our main directry at the end of the process
+creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR )
 
+# We move each books image in directorys
+move_img_into_dir(CATEGORY_LIST_FOR_DIR ) 
+
+c.print("Félicitations tous les livres ont été récupérés\n"
+        "Dans le repertoire courant, un fichier books-listing.csv a été crée\n"
+        "Il contient l'intégralité des données.\n\n"
+        "Les images des livres ont été téléchargées et placées dans un répertoire\n"
+        "correspondant à leur catégorie, les fichiers sont identifiable par comparaison\n"
+        "de la catégorie et du numéro de produit dans le fichier csv.", style='bold red', justify="center")
