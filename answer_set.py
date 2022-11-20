@@ -16,4 +16,17 @@ table.add_row("[left]- Dans le repertoire courant, un fichier [bold blue u i]boo
 
 
 def return_pretty_message(table):
-    c.print(table)
+    """From created Table 
+    return a pretty answer at the end 
+    of the script
+
+    Args:
+        table (class 'rich.table.Table'): 
+        2 columns to describe the content 
+        of the files created according to 
+        their category .csv or .jpg
+    """
+    return c.print(table)
+
+
+print(type(table))

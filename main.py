@@ -6,7 +6,7 @@ from rich.progress import track
 import urllib.request
 
 from write_data import write_csv_headers, write_data_in_csv
-from clean_directory import creat_dir_from_img_category, move_img_into_dir,CATEGORY_LIST_FOR_DIR
+from clean_directory import creat_dir_from_img_category, move_img_into_dir,move_img_dir_in_main_dir,move_csv_file_to_listing_dir,CATEGORY_LIST_FOR_DIR
 from answer_set import table, return_pretty_message
 
 # with rich library, we creat Console() object as c,  
@@ -223,9 +223,15 @@ for books in track(url_books_page, description="Scraping 1000 books in .csv"):
 
 
 # We creat each directory for each category to clean our main directry at the end of the process
-creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR )
+creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR)
 
 # We move each books image in directorys
-move_img_into_dir(CATEGORY_LIST_FOR_DIR ) 
+move_img_into_dir(CATEGORY_LIST_FOR_DIR) 
+
+
+move_img_dir_in_main_dir(CATEGORY_LIST_FOR_DIR) 
+
+move_csv_file_to_listing_dir()
+
 
 return_pretty_message(table)

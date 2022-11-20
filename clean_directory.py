@@ -45,3 +45,34 @@ def move_img_into_dir(list_of_category):
             if path_name in img.name:
                 shutil.move(img, path_name)
     
+
+
+def move_img_dir_in_main_dir(list_of_dir):
+    """Move every folder containing img
+       in a general folder IMG
+    
+
+    Args:
+        list_of_dir (list): use constant 
+        CATEGORY_LIST_FOR_DIR
+    """
+    for category in list_of_dir:
+        for imgs_folders in path.iterdir():
+            if category in imgs_folders.name:
+                main_folder_for_img_folder = Path.cwd() / 'IMG'
+                main_folder_for_img_folder.mkdir(exist_ok=True)
+                shutil.move(imgs_folders,main_folder_for_img_folder)
+                
+
+def move_csv_file_to_listing_dir():
+    """Loop in current folder to find
+    .csv file and move it, into appropriate 
+    folder: LISTING-CSV
+    """
+   
+    
+    for csv_file in path.iterdir():
+        if csv_file.suffix == ".csv":
+            folder_for_csv = path / "LISTING-CSV"
+            folder_for_csv.mkdir(exist_ok= True)
+            shutil.move(csv_file, folder_for_csv)
