@@ -35,7 +35,7 @@ def move_img_into_dir(list_of_category):
     """Move every img to her books category
 
     Args:
-        list_of_category (lsit): _Use list
+        list_of_category (list): _Use list
         of category to move img in appropriate 
         directory
     """

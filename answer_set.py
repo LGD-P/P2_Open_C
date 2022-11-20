@@ -9,10 +9,12 @@ table = Table(title="[u bold red]\n\n** FELICITATION TOUS LES FICHIERS ONT ETE T
 table.add_column("FICHIER .CSV", justify="center", style="dark_blue", no_wrap=False, header_style="orange3")
 table.add_column("IMAGE", style="dark_blue",justify="center",no_wrap=False,header_style="orange3")
 
-table.add_row("[left]- Dans le repertoire courant, un fichier [bold blue u i]books-listing.csv[/bold blue u i] a été crée\n\n"
-              "- Il contient l'intégralité des données du site:\n[bold blue u i]https://books.toscrape.com/index.html[/bold blue u i][/left]",
-              "- Les images des livres ont toutes été téléchargées et placées dans un répertoire correspondant à leur catégorie.\n\n"
-              "- Les fichiers sont identifiable par comparaison")
+table.add_row("[left]- Dans le repertoire courant, un fichier [bold blue u i]LISTING-CSV[/bold blue u i] a été crée.\n\n"
+              "- Il contient l'intégralité des données du site:\n[bold blue u i]https://books.toscrape.com/index.html[/bold blue u i][/left] " 
+              "dans un fichier csv",
+              "- Les images des livres ont toutes été téléchargées par categorie, et placées dans des sous dossiers leur "
+              "correspondant, elles sont nommées avec chaque N° de produit pour identification.\n\n Le tout est contenu dans le dossier "
+              "[bold blue u i]IMG[/bold blue u i], les fichiers sont identifiable par comparaison\n")
 
 
 def return_pretty_message(table):
@@ -28,3 +30,4 @@ def return_pretty_message(table):
     """
     return c.print(table)
 
+c.print(table)
