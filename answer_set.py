@@ -14,4 +14,6 @@ table.add_row("[left]- Dans le repertoire courant, un fichier [bold blue u i]boo
               "- Les images des livres ont toutes été téléchargées et placées dans un répertoire correspondant à leur catégorie.\n\n"
               "- Les fichiers sont identifiable par comparaison")
 
-c.print(table)
+
+def return_pretty_message(table):
+    c.print(table)

@@ -7,7 +7,7 @@ import urllib.request
 
 from write_data import write_csv_headers, write_data_in_csv
 from clean_directory import creat_dir_from_img_category, move_img_into_dir,CATEGORY_LIST_FOR_DIR
-from answer_set import table
+from answer_set import table, return_pretty_message
 
 # with rich library, we creat Console() object as c,  
 # to color some output for users
@@ -228,4 +228,4 @@ creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR )
 # We move each books image in directorys
 move_img_into_dir(CATEGORY_LIST_FOR_DIR ) 
 
-c.print(table)
+return_pretty_message(table)

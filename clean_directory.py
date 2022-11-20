@@ -31,10 +31,6 @@ def creat_dir_from_img_category(list_of_category):
         folder_path.mkdir(exist_ok=True)
     
         
-creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR )
-
-
-
 def move_img_into_dir(list_of_category):
     """Move every img to her books category
 
@@ -49,4 +45,3 @@ def move_img_into_dir(list_of_category):
             if path_name in img.name:
                 shutil.move(img, path_name)
     
-move_img_into_dir(CATEGORY_LIST_FOR_DIR ) 
