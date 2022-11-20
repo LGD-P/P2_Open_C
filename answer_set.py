@@ -28,5 +28,3 @@ def return_pretty_message(table):
     """
     return c.print(table)
 
-
-print(type(table))
