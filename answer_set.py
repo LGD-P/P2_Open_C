@@ -7,7 +7,7 @@ c= Console()
 table = Table(title="[u bold red]\n\n** FELICITATION TOUS LES FICHIERS ONT ETE TELECHARGES **\n[/u bold red]")
 
 table.add_column("FICHIER .CSV", justify="center", style="dark_blue", no_wrap=False, header_style="orange3")
-table.add_column("IMAGE", style="dark_blue",justify="center",no_wrap=False,header_style="orange3")
+table.add_column("IMAGES", style="dark_blue",justify="center",no_wrap=False,header_style="orange3")
 
 table.add_row("[left]- Dans le repertoire courant, un fichier [bold blue u i]LISTING-CSV[/bold blue u i] a été crée.\n\n"
               "- Il contient l'intégralité des données du site:\n[bold blue u i]https://books.toscrape.com/index.html[/bold blue u i][/left] " 
