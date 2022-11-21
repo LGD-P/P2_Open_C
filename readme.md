@@ -42,7 +42,7 @@ Il n'y a plus qu'à exécuter le script:
 > python main.py
 
 
-Il n'y a plus qu'à lancer la commande. A la fin de l'éxécution du script; deux dossiers seront crées,IMG et LISTING-CSV:
+À la fin de l'éxécution du script; deux dossiers seront crées,IMG et LISTING-CSV:
 
 - "IMG" contiendra toutes les photo des livres par catégories puis par numéro de produit.
 
