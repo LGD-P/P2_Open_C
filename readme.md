@@ -1,7 +1,7 @@
 # Projet de Scrapring : <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original-wordmark.svg" width=60 align=center>  
 
 
-# Books Online: <img src="ico/Books-Online.png" width=50 align=center>
+# Books Online: <img src="ico/Books-Online.png" width=60 align=center>
 
 *Un projet python qui vise à faire une étude de marché sur un site de livre en ligne pour récupérer l'intégalité des données suivantes dans un fichier .csv:*
 
