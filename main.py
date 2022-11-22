@@ -169,7 +169,7 @@ for books in track(url_books_page, description="Scraping 1000 books in .csv"):
 
     get_category = soup_book_try.find("ul", class_="breadcrumb").select("a")[2].text
 
-    # In thhis part we remane some category to be able to clean easaly our 
+    # In this part we remane some category to be able to clean easaly our 
     # directory later.
 
     if " " in get_category:

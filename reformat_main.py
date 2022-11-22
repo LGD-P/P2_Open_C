@@ -161,6 +161,8 @@ get_url_books_pages(final_category_list)
 
 print(len(url_books_page))
 
+# Modifier les return..
+
 
 """
 for books in track(url_books_page, description="Scraping 1000 books in .csv"):
