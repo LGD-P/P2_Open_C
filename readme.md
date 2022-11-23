@@ -3,7 +3,7 @@
 
 # Books Online: <img src="ico/Books-Online.png" width=60 align=center>
 
-*Un projet python qui vise à faire une étude de marché sur un site de livre en ligne pour récupérer l'intégalité des données suivantes dans un fichier .csv:*
+*Un projet python qui vise à faire une étude de marché sur un site de livre en ligne pour récupérer l'intégalité des données suivantes dans un fichier .csv:* 
 
 - product_page_url
 - universal_ product_code (upc)
