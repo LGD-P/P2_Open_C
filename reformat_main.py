@@ -46,6 +46,8 @@ final_category_list = []
 
 url_books_page = []
 
+data_list_scrapped = []
+
 URL = requests.get("https://books.toscrape.com/catalogue/page-1.html")
 
 
@@ -121,9 +123,6 @@ def get_url_cat_if_more_one_page(firsts_pages_urls):
 
 final_category_list = get_url_cat_if_more_one_page(category_list)
 
-print(len(final_category_list))
-
-
 
 
 ######################################
@@ -139,135 +138,140 @@ print(len(final_category_list))
 
 
 def get_url_books_pages(all_category_pages_url):
+    """This functions get all the 1000 books Url
 
-        for each_url in track(all_category_pages_url, description=
-                              "Scrapping all URL by BOOKS"):
-                request_url_for_books = requests.get(each_url)
+    Args:
+        all_category_pages_url (list): final category url
+    """
 
-                soup_books_url = BeautifulSoup(request_url_for_books.text, 
-                                               "html.parser")
+    for each_url in track(all_category_pages_url, description=
+                            "Scrapping all URL by BOOKS"):
+            request_url_for_books = requests.get(each_url)
 
-                for each_url in soup_books_url.find_all("h3"):
-                        end_of_url = each_url.find("a").get("href")
-                        url_books_page.append(
-                                
-                                end_of_url.replace(
-                                        "../../../",
-                                        "https://books.toscrape.com/catalogue/")
-                                )
+            soup_books_url = BeautifulSoup(request_url_for_books.text, 
+                                            "html.parser")
+
+            for each_url in soup_books_url.find_all("h3"):
+                    end_of_url = each_url.find("a").get("href")
+                    url_books_page.append(
+                            
+                            end_of_url.replace(
+                                    "../../../",
+                                    "https://books.toscrape.com/catalogue/")
+                            )
    
 
 get_url_books_pages(final_category_list)
 
-print(len(url_books_page))
 
-# Modifier les return..
+def scrappe_all_books(url_of_every_book):
 
+    for books in track(url_of_every_book, description="Scraping 1000 books in .csv"):
+        book_try_request = requests.get(books)
 
-"""
-for books in track(url_books_page, description="Scraping 1000 books in .csv"):
-    book_try_request = requests.get(books)
+        soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
 
-    soup_book_try = BeautifulSoup(book_try_request.text, "html.parser")
+        get_product_page_url = books
 
-    get_product_page_url = books
+        get_book_name = (
+            soup_book_try.find("div", class_="col-sm-6 product_main").find("h1").text
+        )
 
-    get_book_name = (
-        soup_book_try.find("div", class_="col-sm-6 product_main").find("h1").text
-    )
+        get_upc = soup_book_try.find("td").text
 
-    get_upc = soup_book_try.find("td").text
+        get_price_including_tax = soup_book_try.select("td")[2].text[1:]
 
-    get_price_including_tax = soup_book_try.select("td")[2].text[1:]
+        get_price_excluding_tax = soup_book_try.select("td")[3].text[1:]
 
-    get_price_excluding_tax = soup_book_try.select("td")[3].text[1:]
+        get_number_available_full_str = soup_book_try.select("td")[5].text
 
-    get_number_available_full_str = soup_book_try.select("td")[5].text
+        # here data is a string, with number available inside.
+        # We create a comprehension list, avoiding a for loop, to get a list with only the
+        # digits . Then we join those elements, to get back in a string, numbers available
 
-    # here data is a string, with number available inside.
-    # We create a comprehension list, avoiding a for loop, to get a list with only the
-    # digits . Then we join those elements, to get back in a string, numbers available
+        get_number_available_in_list = [
+            element for element in get_number_available_full_str if int(element.isdigit())
+        ]
 
-    get_number_available_in_list = [
-        element for element in get_number_available_full_str if int(element.isdigit())
-    ]
+        get_number_available = "".join(get_number_available_in_list)
 
-    get_number_available = "".join(get_number_available_in_list)
+        get_product_description = soup_book_try.select("p")[3].text
 
-    get_product_description = soup_book_try.select("p")[3].text
+        get_category = soup_book_try.find("ul", class_="breadcrumb").select("a")[2].text
 
-    get_category = soup_book_try.find("ul", class_="breadcrumb").select("a")[2].text
+        # In this part we remane some category to be able to clean easaly our 
+        # directory later.
 
-    # In this part we remane some category to be able to clean easaly our 
-    # directory later.
+        if " " in get_category:
+            get_category = get_category.replace(" ", "-")
+        else:
+            pass
 
-    if " " in get_category:
-        get_category = get_category.replace(" ", "-")
-    else:
-        pass
+        if "Sequential-Art" in get_category:
+            get_category = get_category.replace("Sequential-Art", "Sequential-A")
+        else:
+            pass
 
-    if "Sequential-Art" in get_category:
-        get_category = get_category.replace("Sequential-Art", "Sequential-A")
-    else:
-        pass
+        if "Womens-Fiction" in get_category:
+            get_category = get_category.replace("Womens-Fiction", "W-F")
+        else:
+            pass
 
-    if "Womens-Fiction" in get_category:
-        get_category = get_category.replace("Womens-Fiction", "W-F")
-    else:
-        pass
+        if "Historical-Fiction" in get_category:
+            get_category = get_category.replace("Historical-Fiction", "Hist-F")
 
-    if "Historical-Fiction" in get_category:
-        get_category = get_category.replace("Historical-Fiction", "Hist-F")
+        else:
+            pass
 
-    else:
-        pass
+        if "Science-Fiction" in get_category:
+            get_category = get_category.replace("Science-Fiction", "S-F")
 
-    if "Science-Fiction" in get_category:
-        get_category = get_category.replace("Science-Fiction", "S-F")
+        else:
+            pass
 
-    else:
-        pass
+        if "Adult-Fiction" in get_category:
+            get_category = get_category.replace("Adult-Fiction", "Adult-F")
+        else:
+            pass
 
-    if "Adult-Fiction" in get_category:
-        get_category = get_category.replace("Adult-Fiction", "Adult-F")
-    else:
-        pass
+        if "Christian-Fiction" in get_category:
+            get_category = get_category.replace("Christian-Fiction", "Ch-F")
+        else:
+            pass
 
-    if "Christian-Fiction" in get_category:
-        get_category = get_category.replace("Christian-Fiction", "Ch-F")
-    else:
-        pass
+        get_view_rating = soup_book_try.select("td")[6].text
 
-    get_view_rating = soup_book_try.select("td")[6].text
+        # Here data is only the end of img url,
+        # once the data scraped we replace ../../ whit the begining url
+        # to get full img url
 
-    # Here data is only the end of img url,
-    # once the data scraped we replace ../../ whit the begining url
-    # to get full img url
+        get_image_url_first_step = soup_book_try.find("img").get("src")
 
-    get_image_url_first_step = soup_book_try.find("img").get("src")
+        get_image_url = get_image_url_first_step.replace(
+            "../../", "https://books.toscrape.com/"
+        )
 
-    get_image_url = get_image_url_first_step.replace(
-        "../../", "https://books.toscrape.com/"
-    )
+        # We create a list with all data for each books
+        data_list_scrapped = [
+            get_product_page_url,
+            get_book_name,
+            get_upc,
+            get_price_including_tax,
+            get_price_excluding_tax,
+            get_number_available,
+            get_product_description,
+            get_category,
+            get_image_url,
+        ]
 
-    # We create a list with all data for each books
-    data_list_scrapped = [
-        get_product_page_url,
-        get_book_name,
-        get_upc,
-        get_price_including_tax,
-        get_price_excluding_tax,
-        get_number_available,
-        get_product_description,
-        get_category,
-        get_image_url,
-    ]
+        urllib.request.urlretrieve(
+            get_image_url, get_category + "-" + get_upc + "-" + ".jpg"
+        )
+        # We use a function to write in csv file each elements of our list
+        write_data_in_csv(data_list_scrapped)
 
-    urllib.request.urlretrieve(
-        get_image_url, get_category + "-" + get_upc + "-" + ".jpg"
-    )
-    # We use a function to write in csv file each elements of our list
-    write_data_in_csv(data_list_scrapped)
+scrappe_all_books(url_books_page)
+
 
 
 # We creat each directory for each category to clean our main directry at the end of 
@@ -284,4 +288,8 @@ move_csv_file_to_listing_dir()
 
 
 return_pretty_message(table)
+
+
+"""
+if __name__ == "__main__":
 """
