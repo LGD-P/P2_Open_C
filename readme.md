@@ -19,8 +19,6 @@
 *Enfin toutes les imges relatives aux livres seront également récupérées.*
 
 
-
-
 ## Liste des commandes à exécuter pour lancer le programme:
 
 _Pré-requis: se placer depuis le terminal dans le dossier où l'on exécute le script:_
