@@ -80,7 +80,7 @@ def get_category_list_url(constant_url):
 
 def get_url_cat_if_more_one_page(firsts_pages_urls):
         """This fuction use the first category url part
-        to get pages where there more than one page
+        to get pages when there is more than one page
 
         Args:
             firsts_pages_urls (list): list of category
@@ -148,7 +148,15 @@ def get_url_books_pages(all_category_pages_url):
                             )
    
 
-def scrappe_all_books(url_of_every_book):
+def scrape_all_books(url_of_every_book):
+    """This function scrape all books 
+    write data in csv 
+    get .jpg
+    
+
+    Args:
+        url_of_every_book (list): list of all url books
+    """
 
     for books in track(url_of_every_book, description="Scraping 1000 books in .csv"):
         book_try_request = requests.get(books)
@@ -261,7 +269,7 @@ if __name__ == "__main__":
     get_category_list_url(URL)
     final_category_list = get_url_cat_if_more_one_page(category_list)
     get_url_books_pages(final_category_list)
-    scrappe_all_books(url_books_page)
+    scrape_all_books(url_books_page)
     creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR)
     move_img_into_dir(CATEGORY_LIST_FOR_DIR)
     move_img_dir_in_main_dir(CATEGORY_LIST_FOR_DIR)

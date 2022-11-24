@@ -66,8 +66,7 @@ def creat_dir_from_img_category(list_of_category):
     """Creat each directory from each category of book
 
     Args:
-        list_of_category (list): Use list to
-        get name of each directory
+        list_of_category (list): Constant list of category
     """
     for path_name in list_of_category:
         folder_name = path_name
@@ -79,9 +78,7 @@ def move_img_into_dir(list_of_category):
     """Move every img to her books category
 
     Args:
-        list_of_category (list): _Use list
-        of category to move img in appropriate
-        directory
+        list_of_category (list): Constant list of category
     """
 
     for path_name in list_of_category:
@@ -118,3 +115,50 @@ def move_csv_file_to_listing_dir():
             folder_for_csv = path / "LISTING-CSV"
             folder_for_csv.mkdir(exist_ok=True)
             shutil.move(csv_file, folder_for_csv)
+
+
+def rename_category(category_name):
+    """This function rename some categorys
+    to easaly clean directory later, and avoid 
+    conflict name
+
+    Args:
+        category_name (str): str category name get from <a>
+    """
+
+    if " " in category_name:
+                category_name = category_name.replace(" ", "-")
+    else:
+        pass
+
+    if "Sequential-Art" in category_name:
+        category_name = category_name.replace("Sequential-Art", "Sequential-A")
+    else:
+        pass
+
+    if "Womens-Fiction" in category_name:
+        category_name = category_name.replace("Womens-Fiction", "W-F")
+    else:
+        pass
+
+    if "Historical-Fiction" in category_name:
+        category_name= category_name.replace("Historical-Fiction", "Hist-F")
+
+    else:
+        pass
+
+    if "Science-Fiction" in category_name:
+        category_name = category_name.replace("Science-Fiction", "S-F")
+
+    else:
+        pass
+
+    if "Adult-Fiction" in category_name:
+        category_name = category_name.replace("Adult-Fiction", "Adult-F")
+    else:
+        pass
+
+    if "Christian-Fiction" in category_name:
+        category_name = category_name.replace("Christian-Fiction", "Ch-F")
+    else:
+        pass
