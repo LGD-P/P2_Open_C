@@ -19,8 +19,6 @@ from answer_set import table, return_pretty_message
 c = Console()
 
 
-
-
 DATA_TO_SCRAPT = [
     "PRODUCT_PAGE_URL",
     "UNIVERSAL_PRODUCT_CODE",
@@ -32,10 +30,6 @@ DATA_TO_SCRAPT = [
     "REVIEW_RATING",
     "IMAGE_URL",
 ]
-
-
-
-write_csv_headers(DATA_TO_SCRAPT)
 
 
 category_list = []
@@ -72,9 +66,6 @@ def get_category_list_url(constant_url):
                 category_list.append(first_url_part + element.get("href"))
 
         category_list.pop(0)
-
-
-get_category_list_url(URL)
 
 
 ######################################
@@ -121,10 +112,6 @@ def get_url_cat_if_more_one_page(firsts_pages_urls):
         return category_list + category_list_next_pages
         
 
-final_category_list = get_url_cat_if_more_one_page(category_list)
-
-
-
 ######################################
 ######################################
 
@@ -160,9 +147,6 @@ def get_url_books_pages(all_category_pages_url):
                                     "https://books.toscrape.com/catalogue/")
                             )
    
-
-get_url_books_pages(final_category_list)
-
 
 def scrappe_all_books(url_of_every_book):
 
@@ -238,6 +222,7 @@ def scrappe_all_books(url_of_every_book):
             get_category = get_category.replace("Christian-Fiction", "Ch-F")
         else:
             pass
+       
 
         get_view_rating = soup_book_try.select("td")[6].text
 
@@ -270,26 +255,18 @@ def scrappe_all_books(url_of_every_book):
         # We use a function to write in csv file each elements of our list
         write_data_in_csv(data_list_scrapped)
 
-scrappe_all_books(url_books_page)
 
-
-
-# We creat each directory for each category to clean our main directry at the end of 
-# the process
-creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR)
-
-# We move each books image in directorys
-move_img_into_dir(CATEGORY_LIST_FOR_DIR)
-
-
-move_img_dir_in_main_dir(CATEGORY_LIST_FOR_DIR)
-
-move_csv_file_to_listing_dir()
-
-
-return_pretty_message(table)
-
-
-"""
 if __name__ == "__main__":
-"""
+    write_csv_headers(DATA_TO_SCRAPT)
+    get_category_list_url(URL)
+    final_category_list = get_url_cat_if_more_one_page(category_list)
+    get_url_books_pages(final_category_list)
+    scrappe_all_books(url_books_page)
+    creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR)
+    move_img_into_dir(CATEGORY_LIST_FOR_DIR)
+    move_img_dir_in_main_dir(CATEGORY_LIST_FOR_DIR)
+    move_csv_file_to_listing_dir()
+    return_pretty_message(table)
+    
+    
+    
