@@ -188,9 +188,10 @@ def scrape_all_books(CONSTANT,url_of_every_book):
             get_image_url,
         ]
 
-
+        # creat dictionary with list of data scraped
         data_in_dict = dict(zip(CONSTANT,data_list_scrapped))
         
+        # add dictionary as book in books list
         BOOKS_DICT_LIST.append(data_in_dict)
         
 
