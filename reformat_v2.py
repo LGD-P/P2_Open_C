@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from rich.console import Console
 from rich.progress import track
+from rich import print
 
 import urllib.request
 from urllib.parse import urljoin
@@ -21,7 +22,7 @@ from answer_set import table, return_pretty_message
 c = Console()
 
 
-DATA_TO_SCRAPT = [
+DATA_TO_SCRAPE = [
     "PRODUCT_PAGE_URL",
     "UNIVERSAL_PRODUCT_CODE",
     "TITLE",
@@ -36,13 +37,9 @@ DATA_TO_SCRAPT = [
 
 category_list = []
 
-category_list_next_pages = []
-
-final_category_list = []
-
 url_books_page = []
 
-data_list_scrapped = []
+BOOKS_DICT_LIST = []
 
 URL = requests.get("https://books.toscrape.com/catalogue/page-1.html")
 
@@ -102,7 +99,9 @@ def get_url_cat_if_more_one_page(firsts_pages_urls):
             find_number_of_pages = soup_all_pages.find("li",class_="next")
             
             if find_number_of_pages:
-                category_list.append(urljoin(next_page, find_number_of_pages.select('a')[0].get('href')))
+                category_list.append(
+                    urljoin(next_page, find_number_of_pages.select('a')[0].get('href'))
+                    )
                 
             else:
                 pass
@@ -142,13 +141,12 @@ def get_url_books_pages(all_category_pages_url):
                                     "../../../",
                                     "https://books.toscrape.com/catalogue/")
                             )
-    print(len(url_books_page))
-   
 
-def scrape_all_books(url_of_every_book):
+
+def scrape_all_books(CONSTANT,url_of_every_book):
     """This function scrape all books 
-    write data in csv 
-    get .jpg
+    and creat a dictionnary with DATA_TO_SCRAPE
+    constant
     
 
     Args:
@@ -191,44 +189,6 @@ def scrape_all_books(url_of_every_book):
         # In this part we remane some category to be able to clean easaly our 
         # directory later.
 
-        if " " in get_category:
-            get_category = get_category.replace(" ", "-")
-        else:
-            pass
-
-        if "Sequential-Art" in get_category:
-            get_category = get_category.replace("Sequential-Art", "Sequential-A")
-        else:
-            pass
-
-        if "Womens-Fiction" in get_category:
-            get_category = get_category.replace("Womens-Fiction", "W-F")
-        else:
-            pass
-
-        if "Historical-Fiction" in get_category:
-            get_category = get_category.replace("Historical-Fiction", "Hist-F")
-
-        else:
-            pass
-
-        if "Science-Fiction" in get_category:
-            get_category = get_category.replace("Science-Fiction", "S-F")
-
-        else:
-            pass
-
-        if "Adult-Fiction" in get_category:
-            get_category = get_category.replace("Adult-Fiction", "Adult-F")
-        else:
-            pass
-
-        if "Christian-Fiction" in get_category:
-            get_category = get_category.replace("Christian-Fiction", "Ch-F")
-        else:
-            pass
-       
-
         get_view_rating = soup_book_try.select("td")[6].text
 
         # Here data is only the end of img url,
@@ -244,8 +204,8 @@ def scrape_all_books(url_of_every_book):
         # We create a list with all data for each books
         data_list_scrapped = [
             get_product_page_url,
-            get_book_name,
             get_upc,
+            get_book_name,            
             get_price_including_tax,
             get_price_excluding_tax,
             get_number_available,
@@ -254,20 +214,30 @@ def scrape_all_books(url_of_every_book):
             get_image_url,
         ]
 
-        urllib.request.urlretrieve(
-            get_image_url, get_category + "-" + get_upc + "-" + ".jpg"
-        )
-        # We use a function to write in csv file each elements of our list
-        write_data_in_csv(data_list_scrapped)
 
+        data_in_dict = dict(zip(CONSTANT,data_list_scrapped))
+        
+        BOOKS_DICT_LIST.append(data_in_dict)
+        
+        print(BOOKS_DICT_LIST)
+
+
+"""
+urllib.request.urlretrieve(
+    get_image_url, get_category + "-" + get_upc + "-" + ".jpg"
+)
+# We use a function to write in csv file each elements of our list
+write_data_in_csv(data_list_scrapped)
+"""
 
 if __name__ == "__main__":
-    write_csv_headers(DATA_TO_SCRAPT)
+    write_csv_headers(DATA_TO_SCRAPE)
     get_category_list_url(URL)
     get_url_cat_if_more_one_page(category_list)    
     get_url_books_pages(category_list)
+    scrape_all_books(DATA_TO_SCRAPE, url_books_page)
+
     """
-    scrape_all_books(url_books_page)
     creat_dir_from_img_category(CATEGORY_LIST_FOR_DIR)
     move_img_into_dir(CATEGORY_LIST_FOR_DIR)
     move_img_dir_in_main_dir(CATEGORY_LIST_FOR_DIR)
