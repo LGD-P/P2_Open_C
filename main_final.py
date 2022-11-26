@@ -13,15 +13,17 @@ from dl_and_data_to_csv import (
 
 from answer_set import table, return_pretty_message
 
-
 c = Console()
 
-
+# This list will contain all category of books.
 category_list = []
 
+# This list will contain all url books
 url_books_page = []
 
+# This dictionary will contain all scraped datas for every books.
 BOOKS_DICT_LIST = []
+
 
 URL = requests.get("https://books.toscrape.com/catalogue/page-1.html")
 
@@ -45,30 +47,27 @@ def get_category_list_url(constant_url):
                 first_url_part = "https://books.toscrape.com/catalogue/"
                 category_list.append(first_url_part + element.get("href"))
 
+        # category_list[0] is not a category we need to delete it 
         category_list.pop(0)
 
 
 ######################################
-######################################
 
 # Here we check every category pages
 # and we try to find if there  next-pages
-# We get the number of pages and
-# we concatenate url.
-# We need to creat a new list otherwise
-# we creat an infinit loop
-
+# We get the next page href and add result to 
+# category_list
 
 
 def get_url_cat_if_more_one_page(firsts_pages_urls):
-        """This fuction use the first category url part
-        to get pages when there is more than one page
+        """This fuction use the  category_list
+        to get pages when there is more than one.
 
         Args:
-            firsts_pages_urls (list): list of category
+            firsts_pages_urls (list): category_list
 
         Returns:
-            first_list + next_pages_list
+            append next page in category list
         """
         for next_page in track(firsts_pages_urls,
                               description="EXTRACT all URL by CATEGORY"):
@@ -89,22 +88,16 @@ def get_url_cat_if_more_one_page(firsts_pages_urls):
 
 
 ######################################
-######################################
-
-
-# GET BOOKS URL FROM  CATEGORY PAGES #
-
-
-######################################
+# Now that we have all pages to scrape
+# we can get every url books
 ######################################
 
 
 
 def get_url_books_pages(all_category_pages_url):
-    """This functions get all the 1000 books Url
-
+    """This functions get all the 1000 Url Books
     Args:
-        all_category_pages_url (list): final category url
+        all_category_pages_url (list): all category url
     """
 
     for each_url in track(all_category_pages_url, description=
@@ -128,7 +121,6 @@ def scrape_all_books(CONSTANT,url_of_every_book):
     """This function scrape all books 
     and creat a dictionnary with DATA_TO_SCRAPE
     constant
-    
 
     Args:
         url_of_every_book (list): list of all url books

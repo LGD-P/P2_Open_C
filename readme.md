@@ -27,21 +27,24 @@ Avant toute chose on clone le répository git:
 
 > git clone [https://github.com/LGD-P/P2_Open_C.git](https://github.com/LGD-P/P2_Open_C.git)
 
+
+Une fois les modules installés on active l'environnement virtuel:
+
+> python3 -m venv env \
+source env/bin/activate
+
+
 Puis on lance l'installation des modules nécessaires au fonctionnement du script:
 
 > pip install -m requirements.txt
 
-Une fois les modules installés on active l'environnement virtuel:
-
-> source env/Scripts/Activate
 
 Il n'y a plus qu'à exécuter le script:
 
 > python main.py
 
 
-À la fin de l'éxécution du script; deux dossiers seront crées,IMG et LISTING-CSV:
+*Les fichiers seront téléchargés dans un dossier OUTPUT, il contient :* 
 
-- "IMG" contiendra toutes les photo des livres par catégories puis par numéro de produit.
-
-- "LISTING-CSV", contiendra un fichier avec toutes les données récupérées pour chaque livre.
+* Un sous-dossier CSV avec le fichier books-listing.csv
+* Et un sous-dossier IMG avec les images rangées par catégories et identifiées par leur numéro UPC.
