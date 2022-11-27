@@ -3,7 +3,7 @@
 
 # Books Online: <img src="ico/Books-Online.png" width=60 align=center>
 
-*Un projet python qui vise à faire une étude de marché sur un site de livre en ligne pour récupérer l'intégalité des données suivantes dans un fichier .csv:* 
+*C'est  un projet python qui vise à faire une étude de marché sur un site de livre en ligne pour récupérer l'intégalité des données suivantes dans un fichier .csv:* 
 
 - product_page_url
 - universal_ product_code (upc)
@@ -44,7 +44,7 @@ Il n'y a plus qu'à exécuter le script:
 > python main.py
 
 
-*Les fichiers seront téléchargés dans un dossier OUTPUT, il contient :* 
+*Les fichiers seront téléchargés dans un dossier OUTPUT; il contient :* 
 
 * Un sous-dossier CSV avec le fichier books-listing.csv
-* Et un sous-dossier IMG avec les images rangées par catégories et identifiées par leur numéro UPC.
+* Et un sous-dossier IMG, avec les images classées dans des dossiers par catégories, et identifiées par leur numéro UPC.

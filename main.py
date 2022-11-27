@@ -92,7 +92,7 @@ def get_url_cat_if_more_one_page(firsts_pages_urls):
 
 ######################################
 # Now that we have all pages to scrape
-# we can get every url books
+# we can get every books url
 ######################################
 
 
@@ -160,9 +160,6 @@ def scrape_all_books(CONSTANT, url_of_every_book):
 
         get_category = soup_book_try.find("ul", class_="breadcrumb").select("a")[2].text
 
-        # In this part we remane some category to be able to clean easaly our
-        # directory later.
-
         get_view_rating = soup_book_try.select("td")[6].text
 
         # Here data is only the end of img url,
@@ -176,6 +173,7 @@ def scrape_all_books(CONSTANT, url_of_every_book):
         )
 
         # We create a list with all data for each books
+        # This list will be used as values for a dictionary
         data_list_scrapped = [
             get_product_page_url,
             get_upc,
@@ -189,7 +187,7 @@ def scrape_all_books(CONSTANT, url_of_every_book):
             get_image_url,
         ]
 
-        # creat dictionary with list of data scraped
+        # creat dictionary with constat data to scrape as keys.
         data_in_dict = dict(zip(CONSTANT, data_list_scrapped))
 
         # add dictionary as book in books list
