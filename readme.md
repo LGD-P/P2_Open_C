@@ -16,7 +16,7 @@
 - review_rating
 - image_url
 
-*Enfin toutes les imges relatives aux livres seront également récupérées.*
+*Enfin toutes les images relatives aux livres seront également récupérées.*
 
 
 ## Liste des commandes à exécuter pour lancer le programme:
@@ -28,7 +28,7 @@ Avant toute chose on clone le répository git:
 > git clone [https://github.com/LGD-P/P2_Open_C.git](https://github.com/LGD-P/P2_Open_C.git)
 
 
-Une fois les modules installés on active l'environnement virtuel:
+Une fois le projet cloné on crée et on active l'environnement virtuel:
 
 > python3 -m venv env \
 source env/bin/activate
