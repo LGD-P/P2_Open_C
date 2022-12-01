@@ -26,20 +26,7 @@ IMG_FOLDER = OUTPUT_FOLDER / "IMG"
 CSV_FOLDER = OUTPUT_FOLDER / "CSV"
 
 
-def creat_dir_and_sub_dir(path_1, path_2, path_3):
-    """This function creat directory
-
-    Args:
-        path_1 (path): OUTPUT FOLDER
-        path_2 (path): IMG SUB-DIR
-        path_3 (path): CSV SUB-DIR
-    """
-    path_1.mkdir(exist_ok=True)
-    path_2.mkdir(exist_ok=True)
-    path_3.mkdir(exist_ok=True)
-
-
-def write_books_csv_file(dictionary):
+def write_books_csv_file(list_of_dictionary):
     """This function use all books dictionary to
     data in csv
 
@@ -51,17 +38,17 @@ def write_books_csv_file(dictionary):
     ) as books_listing:
         writer = csv.DictWriter(books_listing, fieldnames=DATA_TO_SCRAPE)
         writer.writeheader()
-        writer.writerows(dictionary)
+        writer.writerows(list_of_dictionary)
 
 
-def dl_img_in_sub_dir(dictionary):
+def dl_img_in_sub_dir(list_of_dictionary):
     """This function download all books images.
     all images are put in subdirectory names by category
 
     Args:
         dictionary (dict): all books in dictionnary
     """
-    for element in track(dictionary, description="LOAD data"):
+    for element in track(list_of_dictionary, description="LOAD data"):
         folder_path = IMG_FOLDER / element["CATEGORY"]
         folder_path.mkdir(exist_ok=True)
         urllib.request.urlretrieve(
