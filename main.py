@@ -7,6 +7,8 @@ from urllib.parse import urljoin
 
 
 from dl_img_and_get_data_to_csv import (
+    delete_file_if_already_exist,
+    current_path,
     write_books_csv_file,
     dl_img_in_sub_dir,
     OUTPUT_FOLDER,
@@ -194,12 +196,13 @@ def scrape_all_books(CONSTANT, url_of_every_book):
 
 
 if __name__ == "__main__":
-    OUTPUT_FOLDER.mkdir(exist_ok=True)
-    IMG_FOLDER.mkdir(exist_ok=True)
-    CSV_FOLDER.mkdir(exist_ok=True)    
     get_category_list_url(URL)
     get_url_cat_if_more_one_page(category_list)
     get_url_books_pages(category_list)
+    delete_file_if_already_exist(current_path,OUTPUT_FOLDER)   
+    OUTPUT_FOLDER.mkdir(exist_ok=True)
+    IMG_FOLDER.mkdir(exist_ok=True)
+    CSV_FOLDER.mkdir(exist_ok=True) 
     scrape_all_books(DATA_TO_SCRAPE, url_books_page)
     write_books_csv_file(BOOKS_DICT_LIST)
     dl_img_in_sub_dir(BOOKS_DICT_LIST)
