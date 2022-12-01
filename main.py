@@ -26,7 +26,7 @@ category_list = []
 # This list will contain all url books
 url_books_page = []
 
-# This dictionary will contain all scraped datas for every books.
+# This list will contain all scraped datas for every books ass dictionary.
 BOOKS_DICT_LIST = []
 
 
