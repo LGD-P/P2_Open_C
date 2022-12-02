@@ -41,7 +41,7 @@ Puis on lance l'installation des modules nécessaires au fonctionnement du scrip
 
 Il n'y a plus qu'à exécuter le script:
 
-> python main.py
+> python3 main.py
 
 
 *Les fichiers seront téléchargés dans un dossier OUTPUT; il contient :* 
