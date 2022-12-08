@@ -1,7 +1,6 @@
 import csv
 import urllib.request
 from pathlib import Path
-import shutil
 from rich.progress import track
 
 
@@ -26,19 +25,14 @@ IMG_FOLDER = OUTPUT_FOLDER / "IMG"
 
 CSV_FOLDER = OUTPUT_FOLDER / "CSV"
 
-def delete_file_if_already_exist(dir_to_check,dir_to_delete):
-    """To avoid problem with folder and files alrdeady existing
-    this function delete output folder if he exist.
-
-    Args:
-        dir_to_check (path): directory to check
-        dir_to_delete (path): directory to delete if exist
+def creat_dir_and_sub_dir():
+    """This function creat every directory
+    and sub directory we need.
     """
-    for element in dir_to_check.iterdir():
-        if element == dir_to_delete:
-            shutil.rmtree(element)
-        pass
-
+    
+    OUTPUT_FOLDER.mkdir(exist_ok=True)
+    IMG_FOLDER.mkdir(exist_ok=True)
+    CSV_FOLDER.mkdir(exist_ok=True) 
 
 
 def write_books_csv_file(list_of_dictionary):
