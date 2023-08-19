@@ -24,25 +24,29 @@
 _Pré-requis: se placer depuis le terminal dans le dossier où l'on exécute le script:_
 
 Avant toute chose on clone le répository git:
-
-> git clone [https://github.com/LGD-P/P2_Open_C.git](https://github.com/LGD-P/P2_Open_C.git)
-
+```bash
+git clone [https://github.com/LGD-P/P2_Open_C.git](https://github.com/LGD-P/P2_Open_C.git)
+```
 
 Une fois le projet cloné on crée et on active l'environnement virtuel:
-
-> python3 -m venv env \
+```bash
+python3 -m venv env \
+```
+```bash
 source env/bin/activate
-
+```
 
 Puis on lance l'installation des modules nécessaires au fonctionnement du script:
 
-> pip install -m requirements.txt
-
+```bash
+pip install -m requirements.txt
+```
 
 Il n'y a plus qu'à exécuter le script:
 
-> python3 main.py
-
+```bash
+python3 main.py
+```
 
 *Les fichiers seront téléchargés dans un dossier OUTPUT; il contient :* 
 
